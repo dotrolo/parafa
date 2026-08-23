@@ -1,0 +1,13 @@
+/mintd/mintd
+/wallet/wallet
+
+*.seed
+seed
+*.db
+*.log
+*.pem
+*.key
+.env
+
+*.test
+*.out

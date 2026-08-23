@@ -3,5 +3,6 @@ package api
 import "net/http"
 
 func ping(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("pong from api"))
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
 }
