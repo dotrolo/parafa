@@ -1,2 +1,5 @@
 run mintd:
-	go run ./mintd/main.go
+	go run ./mintd
+
+build mintd:
+	go build -o bin/mintd ./mintd

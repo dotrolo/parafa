@@ -3,5 +3,6 @@ package admin
 import "net/http"
 
 func ping(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("privileged pong"))
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
 }

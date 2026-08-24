@@ -1,5 +1,6 @@
 /mintd/mintd
 /wallet/wallet
+bin/
 
 *.seed
 seed
