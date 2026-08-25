@@ -74,7 +74,7 @@ func Create(seedPath string) error {
 		return err
 	}
 
-	defer os.Remove(f.Name())
+	defer os.Remove(f.Name()) // cleanup in case of failure
 
 	if _, err := f.Write(seed); err != nil {
 		return err
