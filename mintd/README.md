@@ -1,12 +1,14 @@
 # Parafa mintd
 
-**mintd** is the server institutions run. Wallets talk to it to get notes issued and redeemed.
+**mintd** is the server operators run. Wallets talk to it to get notes issued and redeemed.
 
 ## How it works
 
 **mintd** signs blinded messages and stores spent notes.
 
-It doesn't manage accounts/identities, or funds. All of that is done by the institution.
+It doesn't manage accounts/identities, or funds. All of that is done by the operator.
+
+**mintd** has a secret ***seed*** which is stored in a file (by default at `/var/lib/parafa/seed`), every key derives from this seed, it MUST be backed up and secured by the operator!
 
 ## Status
 
@@ -18,19 +20,21 @@ Working:
 - Configuration via environment variables and flags
 - Warning if the admin API is not on a local address
 - Graceful shutdown
+- Seed generation & loading
+- Seed file and directory permission checks, refusing to start if too open
 
 Not built yet:
 
-- Seed generation, encryption and loading
+- Seed encryption
 - Key derivation
 - Signing
 - Every endpoint except `/ping`
 
 ## Servers
 
-**Public API.** Wallets talk to this. In production it's open to the internet. (it is on a loopback address by default, so you will need a reverse proxy, for example using Caddy/Nginx servers)
+**Public API.** Wallets talk to this. It is on a loopback address by default, you need a reverse proxy in front of it to make it accessible.
 
-**Admin API.** For the institution's own systems, for payment confirmations/withdrawals. (it is on a loopback address by default, if you change the host, you will get a warning)
+**Admin API.** For the operator's own systems, for payment confirmations/withdrawals. (it is on a loopback address by default, if you change the host, you will get a warning)
 
 ## Configuration
 
@@ -46,7 +50,12 @@ The seed path must include the filename.
 
 Run `mintd --help` for the full list.
 
-## Run it
+### **Notice**
+
+**mintd** checks the permissions of the seed file and its parent directory, but securing the path above it is the operator's job!
+
+## Run it (Linux)
+Go 1.26.5
 
 clone repo, then:
 

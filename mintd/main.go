@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"errors"
+	"io/fs"
 	"log/slog"
 	"net/http"
 	"os"
@@ -12,6 +14,7 @@ import (
 	"github.com/dotrolo/parafa/mintd/internal/admin"
 	"github.com/dotrolo/parafa/mintd/internal/api"
 	"github.com/dotrolo/parafa/mintd/internal/config"
+	"github.com/dotrolo/parafa/mintd/internal/keys"
 )
 
 func main() {
@@ -30,6 +33,24 @@ func main() {
 	for _, v := range warns {
 		slog.Warn(v, "addr", cfg.AdminAddr)
 	}
+
+	// load seed file, if doesn't exist generate one
+	seed, err := keys.Load(cfg.SeedPath)
+	if errors.Is(err, fs.ErrNotExist) {
+		if err := keys.Create(cfg.SeedPath); err != nil {
+			slog.Error("seed generation failed", "err", err, "seed_path", cfg.SeedPath)
+			os.Exit(1)
+		}
+
+		slog.Warn("seed successfully generated, BACK IT UP before restarting", "seed_path", cfg.SeedPath)
+
+		os.Exit(0)
+	} else if err != nil {
+		slog.Error("loading seed failed", "err", err, "seed_path", cfg.SeedPath)
+		os.Exit(1)
+	}
+
+	_ = seed // temporary, todo: use seed
 
 	// public api used by wallets
 	pub := &http.Server{
