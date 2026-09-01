@@ -10,6 +10,10 @@ It doesn't manage accounts/identities, or funds. All of that is done by the oper
 
 **mintd** has a secret ***seed*** which is stored in a file (by default at `/var/lib/parafa/seed`), every key derives from this seed, it MUST be backed up and secured by the operator!
 
+The program asks for a passphrase, either to encrypt a new seed file or to decrypt an existing one. You can also feed it in through a pipe, from any source (e.g. `pass parafa/seed-passphrase | ./bin/mintd`).
+
+Keep the passphrase somewhere safe and NOT ANYWHERE NEAR the encrypted seed file (use a vault, or a secrets mount for instance)
+
 ## Status
 
 Early development. It runs but it can't issue or redeem anything yet.
@@ -22,11 +26,11 @@ Working:
 - Graceful shutdown
 - Seed generation & loading
 - Seed file and directory permission checks, refusing to start if too open
+- Seed encryption
+- Key derivation
 
 Not built yet:
 
-- Seed encryption
-- Key derivation
 - Signing
 - Every endpoint except `/ping`
 
@@ -69,3 +73,5 @@ OR using make:
 make build mintd
 ./bin/mintd
 ```
+
+If you don't pipe a passphrase in, mintd will ask for one. In production, pipe it from wherever you keep it.

@@ -28,7 +28,7 @@ const (
 	argonKeyLen  = 32
 )
 
-func Load(seedPath string) (*Seed, error) {
+func Load(seedPath string, passphrase []byte) (*Seed, error) {
 	// seed fileinfo
 	fi, err := os.Stat(seedPath)
 	if err != nil {
@@ -69,11 +69,6 @@ func Load(seedPath string) (*Seed, error) {
 
 	salt := data[:saltSize]
 
-	passphrase, err := readPassphrase()
-	if err != nil {
-		return nil, err
-	}
-
 	key := argon2.IDKey(passphrase, salt, argonTime, argonMemory, argonThreads, argonKeyLen)
 
 	block, err := aes.NewCipher(key)
@@ -102,12 +97,7 @@ func Load(seedPath string) (*Seed, error) {
 	return &Seed{bytes: seed}, nil
 }
 
-func Create(seedPath string) error {
-	passphrase, err := readPassphrase()
-	if err != nil {
-		return err
-	}
-
+func Create(seedPath string, passphrase []byte) error {
 	salt := make([]byte, saltSize)
 	rand.Read(salt)
 
@@ -187,8 +177,8 @@ func Create(seedPath string) error {
 	return nil
 }
 
-// helper
-func readPassphrase() ([]byte, error) {
+// helper used in main
+func ReadPassphrase() ([]byte, error) {
 	fd := int(os.Stdin.Fd())
 
 	var pass []byte

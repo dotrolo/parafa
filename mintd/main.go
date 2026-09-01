@@ -34,10 +34,16 @@ func main() {
 		slog.Warn(v, "addr", cfg.AdminAddr)
 	}
 
+	// ask for password to deal with seed file
+	passphrase, err := keys.ReadPassphrase()
+	if err != nil {
+		slog.Error("reading passphrase failed", "err", err)
+		os.Exit(1)
+	}
 	// load seed file, if doesn't exist generate one
-	seed, err := keys.Load(cfg.SeedPath)
+	seed, err := keys.Load(cfg.SeedPath, passphrase)
 	if errors.Is(err, fs.ErrNotExist) {
-		if err := keys.Create(cfg.SeedPath); err != nil {
+		if err := keys.Create(cfg.SeedPath, passphrase); err != nil {
 			slog.Error("seed generation failed", "err", err, "seed_path", cfg.SeedPath)
 			os.Exit(1)
 		}
