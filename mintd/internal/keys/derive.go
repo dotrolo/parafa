@@ -31,6 +31,7 @@ func (s *Seed) derive(denom uint64, epoch string) *secp256k1.ModNScalar {
 		hash := h.Sum(nil)
 
 		// SetBytes needs type [32]byte
+		// it generates a number (scalar) that we can multiply G with
 		var arr [32]byte
 		copy(arr[:], hash)
 

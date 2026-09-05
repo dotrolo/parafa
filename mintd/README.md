@@ -4,7 +4,7 @@
 
 ## How it works
 
-**mintd** signs blinded messages and stores spent notes.
+**mintd** signs blinded serials and stores spent notes.
 
 It doesn't manage accounts/identities, or funds. All of that is done by the operator.
 
@@ -28,10 +28,11 @@ Working:
 - Seed file and directory permission checks, refusing to start if too open
 - Seed encryption
 - Key derivation
+- Sign and Verify
 
 Not built yet:
 
-- Signing
+- deal with NonConst
 - Every endpoint except `/ping`
 
 ## Servers
