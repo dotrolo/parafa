@@ -18,6 +18,8 @@ Keep the passphrase somewhere safe and NOT ANYWHERE NEAR the encrypted seed file
 
 Early development. It runs but it can't issue or redeem anything yet.
 
+**DO NOT run mintd with real funds in its current state!**
+
 Working:
 
 - 2 HTTP servers, public and admin
@@ -31,9 +33,14 @@ Working:
 - Sign and Verify
 
 Not built yet:
+- Basic demo: cli wallet using mintd's funcs directly (not through API)
+- DLEQ proofs: this ensures mintd cannot deanonymize users by signing their notes with unique keys without the user knowing. with DLEQ, users/wallets can do this verification themselves.
+- API Endpoints (public & admin)
+- Side-channel hardening: point multiplication on curve uses NonConst operations meaning it takes more time for one operation to finish than another; this could potentially be exploited with our setup.
+- Wallet library
+- CLI Wallet
+- Working demo operator with fake money
 
-- deal with NonConst
-- Every endpoint except `/ping`
 
 ## Servers
 
