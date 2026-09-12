@@ -31,9 +31,9 @@ Working:
 - Seed encryption
 - Key derivation
 - Sign and Verify
+- Basic demo
 
 Not built yet:
-- Basic demo: cli wallet using mintd's funcs directly (not through API)
 - DLEQ proofs: this ensures mintd cannot deanonymize users by signing their notes with unique keys without the user knowing. with DLEQ, users/wallets can do this verification themselves.
 - API Endpoints (public & admin)
 - Side-channel hardening: point multiplication on curve uses NonConst operations meaning it takes more time for one operation to finish than another; this could potentially be exploited with our setup.
