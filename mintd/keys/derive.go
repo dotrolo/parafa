@@ -7,7 +7,8 @@ import (
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 )
 
-// create a private key from seed with params: denomination and epoch
+// create a private key
+// private key is just a big "number" we will do operations with on the curve, we get this number from the hash (seed, denom and epoch)
 func (s *Seed) derive(denom uint64, epoch string) *secp256k1.ModNScalar {
 	// our scalar (private key)
 	var k secp256k1.ModNScalar

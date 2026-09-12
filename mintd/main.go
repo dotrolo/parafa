@@ -14,7 +14,7 @@ import (
 	"github.com/dotrolo/parafa/mintd/internal/admin"
 	"github.com/dotrolo/parafa/mintd/internal/api"
 	"github.com/dotrolo/parafa/mintd/internal/config"
-	"github.com/dotrolo/parafa/mintd/internal/keys"
+	"github.com/dotrolo/parafa/mintd/keys"
 )
 
 func main() {

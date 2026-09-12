@@ -2,6 +2,7 @@ package keys
 
 import "github.com/decred/dcrd/dcrec/secp256k1/v4"
 
+// sign blinded serial with k (derived from seed)
 func (s *Seed) Sign(blinded *secp256k1.JacobianPoint, denom uint64, epoch string) *secp256k1.JacobianPoint {
 	k := s.derive(denom, epoch)
 
@@ -14,7 +15,7 @@ func (s *Seed) Sign(blinded *secp256k1.JacobianPoint, denom uint64, epoch string
 }
 
 func (s *Seed) Verify(serial []byte, stamp *secp256k1.JacobianPoint, denom uint64, epoch string) bool {
-	point := hashToCurve(serial)
+	point := HashToCurve(serial)
 
 	k := s.derive(denom, epoch)
 

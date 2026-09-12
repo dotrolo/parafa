@@ -8,7 +8,8 @@ import (
 )
 
 // convert a serial to a point on the curve
-func hashToCurve(serial []byte) *secp256k1.JacobianPoint {
+// used for verification server side
+func HashToCurve(serial []byte) *secp256k1.JacobianPoint {
 	counter := uint64(0)
 
 	for {
