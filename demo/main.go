@@ -13,8 +13,9 @@ import (
 
 func main() {
 	fmt.Println("starting demo...")
-	// temp directory for demo seed
+	spent := make(map[[32]byte]bool)
 
+	// temp directory for demo seed
 	dir, err := os.MkdirTemp("", "parafa-demo")
 	if err != nil {
 		log.Fatal(err)
@@ -83,14 +84,15 @@ func main() {
 	rK.Y.Negate(1) // to subtract we just negate the Y axis and do addition
 
 	secp256k1.AddNonConst(kB, &rK, &kS)
-	fmt.Println("unblinded:", kS)
+	fmt.Println("unblinded signature:", kS)
 
-	// verify
-	fmt.Println("verifying...")
+	// verify / redeem note
+	fmt.Println("redeeming...")
+	redeem(seed, s, &kS, spent)
 
-	ok := seed.Verify(s[:], &kS, 1, "2026Q3")
-
-	fmt.Println(ok)
+	// try to redeem it twice (should fail)
+	fmt.Println("redeeming again...")
+	redeem(seed, s, &kS, spent)
 }
 
 // client side, this is used to create the blinding factor (r) that we can use to blind our serial
@@ -108,4 +110,21 @@ func randomScalar() *secp256k1.ModNScalar {
 			return &r
 		}
 	}
+}
+
+// checks a note and burns it, if note is already spent, reject
+func redeem(seed *keys.Seed, s [32]byte, stamp *secp256k1.JacobianPoint, spent map[[32]byte]bool) bool {
+	if spent[s] {
+		fmt.Println("rejected: serial already spent")
+		return false
+	}
+
+	if !seed.Verify(s[:], stamp, 1, "2026Q3") {
+		fmt.Println("rejected: invalid signature")
+		return false
+	}
+
+	spent[s] = true
+	fmt.Println("accepted")
+	return true
 }
