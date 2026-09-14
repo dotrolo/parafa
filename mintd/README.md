@@ -2,7 +2,7 @@
 
 **mintd** is the server operators run. Wallets talk to it to get notes issued and redeemed.
 
-See the [main README](../) for what Parafa is and how a note works.
+See the [main README](../README.md) for what Parafa is and how a note works.
 
 ## How it works
 
@@ -36,6 +36,8 @@ Working:
 
 Not built yet:
 
+- config file
+- Tests
 - DLEQ proofs: this ensures mintd cannot deanonymize users by signing their notes with unique keys without the user knowing. With DLEQ, users/wallets can do this verification themselves.
 - API endpoints (public & admin)
 - Side-channel hardening: point multiplication on curve uses NonConst operations meaning it takes more time for one operation to finish than another; this could potentially be exploited with our setup.

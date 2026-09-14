@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	fmt.Println("starting demo...")
+	fmt.Println("------------------ Parafa demo ------------------")
 	spent := make(map[[32]byte]bool)
 
 	// temp directory for demo seed
@@ -21,6 +21,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("[SERVER]")
+	fmt.Println("		Temporary dir created at", dir)
+
 	defer os.RemoveAll(dir)
 
 	seedPath := filepath.Join(dir, "seed")
@@ -28,31 +31,28 @@ func main() {
 	// demo passphrase for seed file
 	passphrase := []byte("demo")
 
-	fmt.Println("loading seed...")
 	if err := keys.Create(seedPath, passphrase); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("		Seed created at", seedPath)
 
 	seed, err := keys.Load(seedPath, passphrase)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("loaded")
-
-	fmt.Println("\"client\" generates serial (s -> S)...")
-
+	fmt.Println("[CLIENT]")
 	// new serial (client side)
 	var s [32]byte
 	rand.Read(s[:])
+	fmt.Println("		Serial generated (s)")
 
 	S := keys.HashToCurve(s[:])
+	fmt.Println("		Serial converted to point (S)")
 
-	fmt.Println("generate blinding factor (r)...")
 	// blinding factor
 	r := randomScalar()
-
-	fmt.Println("blinding it (B = r * G + S)...")
+	fmt.Println("		Random blinding factor generated (r)")
 
 	// make blinded serial (B)
 	var rG secp256k1.JacobianPoint
@@ -61,18 +61,17 @@ func main() {
 	var B secp256k1.JacobianPoint
 	secp256k1.AddNonConst(S, &rG, &B) // r*G + S
 
-	fmt.Println("done, blinded serial (B):", B)
+	fmt.Println("		Blinded serial built (r*G + S)")
 
-	fmt.Println("mintd signing B with epoch & denom...")
+	fmt.Println("[SERVER]")
 	// mintd signs it with their current epoch, we get k * B = k(S + r*G) = k*S + k*r*G
 	kB := seed.Sign(&B, 1, "2026Q3")
+	fmt.Println("		Sign blinded serial (k * B)")
 
-	fmt.Println("done, signed:", kB)
-
-	fmt.Println("client unblinding it...")
-
+	fmt.Println("[CLIENT]")
 	// we need the public key, the client (wallet) can simply request this
 	K := seed.DerivePublic(1, "2026Q3")
+	fmt.Println("		Get public key (K)")
 
 	// multiply r with K (K = k * G), we get k*r*G
 	var rK secp256k1.JacobianPoint
@@ -83,16 +82,21 @@ func main() {
 
 	rK.Y.Negate(1) // to subtract we just negate the Y axis and do addition
 
+	// unblind
 	secp256k1.AddNonConst(kB, &rK, &kS)
-	fmt.Println("unblinded signature:", kS)
 
+	fmt.Println("		Unblind signature using K (get kS)")
+
+	fmt.Println("[SERVER]")
 	// verify / redeem note
-	fmt.Println("redeeming...")
+	fmt.Println("		Redeeming note...")
 	redeem(seed, s, &kS, spent)
 
 	// try to redeem it twice (should fail)
-	fmt.Println("redeeming again...")
+	fmt.Println("		Redeeming the same note again...")
 	redeem(seed, s, &kS, spent)
+
+	fmt.Println("Demo finished!")
 }
 
 // client side, this is used to create the blinding factor (r) that we can use to blind our serial
