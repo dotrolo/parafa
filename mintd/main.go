@@ -21,7 +21,7 @@ import (
 func main() {
 	// load and validate configuration
 	cfg, warns, err := config.Load(os.Args[1:])
-	if errors.Is(err, flag.ErrH	elp) {
+	if errors.Is(err, flag.ErrHelp) {
 		os.Exit(0)
 	}
 	if err != nil {
