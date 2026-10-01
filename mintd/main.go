@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"io/fs"
 	"log/slog"
 	"net/http"
@@ -10,7 +11,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"flag"
 
 	"github.com/dotrolo/parafa/mintd/internal/admin"
 	"github.com/dotrolo/parafa/mintd/internal/api"

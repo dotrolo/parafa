@@ -1,15 +1,15 @@
 package config
 
 import (
+	"errors"
 	"flag"
 	"fmt"
+	"io"
+	"io/fs"
 	"net"
 	"os"
 	"path/filepath"
-	"errors"
-	"io/fs"
 	"strings"
-	"io"
 )
 
 type Config struct {
@@ -20,11 +20,11 @@ type Config struct {
 }
 
 func Load(args []string) (Config, []string, error) {
-	
+
 	// initialize empty flag sets
 	conFS := flag.NewFlagSet("mintd", flag.ContinueOnError)
 	conFS.SetOutput(io.Discard) // silence output on conFS, so mainFS will be written out
-	
+
 	mainFS := flag.NewFlagSet("mintd", flag.ContinueOnError)
 
 	// set only config file path
@@ -33,21 +33,21 @@ func Load(args []string) (Config, []string, error) {
 		getConfEnv("PARAFA_CONFIG", filepath.Join("/etc", "parafa", "parafa.conf")), // default value
 		"",
 	)
-	
+
 	// keeping these empty so "flag" package just ignores these instead of giving an error
 	conFS.String("seed-path", "", "")
 	conFS.String("api-addr", "", "")
 	conFS.String("admin-addr", "", "")
-	
+
 	if err := conFS.Parse(args); err != nil && !errors.Is(err, flag.ErrHelp) {
 		return Config{}, nil, err
 	}
-	
+
 	values, err := readConfig(*configPath)
 	if err != nil {
 		return Config{}, nil, err
 	}
-	
+
 	// set config, flag overwrites env overwrites hardcoded
 	seedPath := mainFS.String(
 		"seed-path",
@@ -130,7 +130,7 @@ func selectConfig(values map[string]string, key, envKey, fallback string) string
 	if v := os.Getenv(envKey); v != "" {
 		return v
 	}
-	
+
 	if v, ok := values[key]; ok {
 		return v
 	}
