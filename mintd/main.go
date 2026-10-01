@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"flag"
 
 	"github.com/dotrolo/parafa/mintd/internal/admin"
 	"github.com/dotrolo/parafa/mintd/internal/api"
@@ -20,6 +21,9 @@ import (
 func main() {
 	// load and validate configuration
 	cfg, warns, err := config.Load(os.Args[1:])
+	if errors.Is(err, flag.ErrH	elp) {
+		os.Exit(0)
+	}
 	if err != nil {
 		slog.Error("fatal", "err", err)
 		os.Exit(1)

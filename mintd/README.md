@@ -25,7 +25,7 @@ Early development. It runs but it can't issue or redeem anything over the API ye
 Working:
 
 - 2 HTTP servers, public and admin
-- Configuration via environment variables and flags
+- Configuration via environment variables, flags and config file
 - Warning if the admin API is not on a local address
 - Graceful shutdown
 - Seed generation & loading
@@ -36,7 +36,6 @@ Working:
 
 Not built yet:
 
-- config file
 - Tests
 - DLEQ proofs: this ensures mintd cannot deanonymize users by signing their notes with unique keys without the user knowing. With DLEQ, users/wallets can do this verification themselves.
 - API endpoints (public & admin)
@@ -53,15 +52,31 @@ Not built yet:
 
 ## Configuration
 
-Flags overwrite environment variables, which overwrite the defaults. You don't need to rebuild if you have your own settings.
+Flags overwrite environment variables, which overwrite the config file, which overwrites the defaults. You don't need to rebuild if you have your own settings.
 
 | Setting | Environment variable | Flag | Default |
 |---|---|---|---|
 | Seed file | `PARAFA_SEED_PATH` | `--seed-path` | `/var/lib/parafa/seed` |
 | Public API | `PARAFA_API_ADDRESS` | `--api-addr` | `127.0.0.1:8080` |
 | Admin API | `PARAFA_ADMIN_ADDRESS` | `--admin-addr` | `127.0.0.1:8081` |
+| Config file | `PARAFA_CONFIG` | `--config` | `/etc/parafa/parafa.conf` |
 
 The seed path must include the filename.
+
+### Config file
+**It is not necessary to have a configuration file**, but if you don't want to always provide flags or environment variables for settings, you can write a config file and save it. It is recommended to create a file at `/etc/parafa/parafa.conf` as that is the path the program looks for by default without having to provide any paths to find it.
+
+This config file uses `key = value` format, use `#` at the start of the line for comments.
+
+Config keys use underscores (`seed_path`), while flags use hyphens (`--seed-path`).
+
+Example config:
+```ini
+# /etc/parafa/parafa.conf
+seed_path = /var/lib/parafa/seed
+api_addr = 127.0.0.1:8080
+admin_addr = 127.0.0.1:8081
+```
 
 Run `mintd --help` for the full list.
 
