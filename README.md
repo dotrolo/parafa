@@ -1,6 +1,6 @@
 # Parafa
 
-**Parafa** is a collection of programs and packages written in Go that make up a lightweight and privacy-preserving digital cash system. It is designed to be universal and not limited to any currency or platform. The same binary can be used for any fiat currency, cryptocurrency or anything else, because the mintd service doesn't handle funds. Debiting/crediting has to be implemented by the operator.
+**Parafa** is a collection of programs and packages written in Go that make up a lightweight and privacy-preserving signing system. It is designed to be universal and not limited to any currency or platform. The same binary can be used for any fiat currency, cryptocurrency or anything else, because the mintd service doesn't handle funds. Debiting/crediting has to be implemented by the operator.
 
 ### What is it for?
 
@@ -33,7 +33,7 @@ Early development. It is NOT ready for real funds. See [mintd](./mintd/) for wha
 
 ### AI use
 
-No AI-generated code is in this repository. An LLM was used for learning and research about design choices. It contributed substantially to the wording of the README files. Earlier AI-assisted test files (*_test.go) were removed and are not part of the codebase.
+No AI-generated code is in this repository. An LLM was used for learning and research about design choices. It contributed to README files.
 
 ### License
 

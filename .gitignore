@@ -1,6 +1,7 @@
 /mintd/mintd
 /wallet/wallet
 bin/
+TODO.md
 
 *.seed
 seed

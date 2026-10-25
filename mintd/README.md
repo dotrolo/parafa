@@ -37,7 +37,7 @@ Working:
 Not built yet:
 
 - Tests
-- DLEQ proofs: this ensures mintd cannot deanonymize users by signing their notes with unique keys without the user knowing. With DLEQ, users/wallets can do this verification themselves.
+- DLEQ proofs: to make sure the user can verify their token was signed with the correct private key before redemption. If mint used a private key that isn't the same as the one that built the public key, the signature the client calculates becomes garbage and won't work at redemption.
 - API endpoints (public & admin)
 - Side-channel hardening: point multiplication on curve uses NonConst operations meaning it takes more time for one operation to finish than another; this could potentially be exploited with our setup.
 - Wallet library
