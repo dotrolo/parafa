@@ -1,39 +1,40 @@
 # Parafa
 
-**Parafa** is a collection of programs and packages written in Go that make up a lightweight and privacy-preserving signing system. It is designed to be universal and not limited to any currency or platform. The same binary can be used for any fiat currency, cryptocurrency or anything else, because the mintd service doesn't handle funds. Debiting/crediting has to be implemented by the operator.
+**Parafa** is a collection of programs and packages written in Go that make up a **lightweight**, privacy-preserving blind signing system, using BDHKE (Blind Diffie-Hellman Key Exchange) on [secp256k1](https://pkg.go.dev/github.com/decred/dcrd/dcrec/secp256k1/v4).
 
-### What is it for?
+Parafa is built for a low attack surface, small binaries and open use.
 
-When you pay by card or transfer, the bank logs both the sender and the receiver. Cash doesn't work that way, but cash only moves in person.
+### What is this?
 
-Parafa lets a licensed operator issue digital notes that behave like cash. The operator knows you withdrew, and knows someone redeemed, but cannot connect the two.
+An operator checks something about you, then gives you a voucher for it. When you redeem the voucher, the operator can see that it's valid, but not which person it gave it to.
 
-Both ends stay identified. The operator does full KYC and can answer a lawful request about either. It works the same way a bank hands out cash; the only thing they don't see is how you spend it.
+Systems that already do this are each built for one use (e.g. digital cash or age verification). Parafa isn't. **mintd** signs vouchers, checks them, and records which ones were used. What a voucher means is up to the operator.
 
-### Example use
+Right now a voucher only works with the operator that issued it. The goal is to let operators accept each other's vouchers.
 
-- You want to withdraw cash from your bank that runs a parafa mintd service.
+#### Example use
+- You want to withdraw cash from your bank that runs a Parafa mintd service.
 - Using a wallet, you request a withdrawal from the bank.
-- Your bank debits your account and provides a signature that your wallet turns into a valid note.
-- You can also give the note to your friends/family if you want to (through encrypted channels).
-- They can swap the note to a new one with the same value so the previous owner's note becomes invalid.
-- To redeem it, all they have to do is send a redemption request using their wallet. Bank then credits their account accordingly.
+- Your bank debits your account and provides a stamp that your wallet turns into a valid voucher (serial + stamp).
+- You can also give the voucher to your friends/family if you want to (through encrypted channels).
+- They can swap the voucher for a new one so the previous owner's voucher becomes invalid.
+- To redeem it, all they have to do is send a redemption request using their wallet. The bank then credits their account accordingly.
 
-A note is just a piece of data that by design isn't linked to your identity. Works exactly like physical cash. If someone can access your note(s), they can spend them.
+A voucher is just a piece of data that by design isn't linked to your identity. It works like physical cash. If someone can access your voucher(s), they can spend them.
 
 ### Components
 
-[Mintd](./mintd/) - The server operators run. Wallets talk to it to get notes issued and redeemed.
+[mintd](./mintd/) - The server operators run. Wallets talk to it to get vouchers issued and redeemed.
 
 [Demo](./demo/) - A straightforward demonstration of serial generation, blinding, signing, verification & spent check.
 
 ### Status
 
-Early development. It is NOT ready for real funds. See [mintd](./mintd/) for what works and what doesn't.
+Early development. NOT ready for production. See [mintd](./mintd/) for what works and what doesn't.
 
 ### AI use
 
-No AI-generated code is in this repository. An LLM was used for learning and research about design choices. It contributed to README files.
+No AI-generated code is in this repository. AI was used for learning and research about design choices. It contributed to README files.
 
 ### License
 

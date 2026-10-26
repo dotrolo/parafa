@@ -1,16 +1,16 @@
 # Parafa mintd
 
-**mintd** is the server operators run. Wallets talk to it to get notes issued and redeemed.
+**mintd** is the server operators run. Wallets talk to it to get vouchers issued and redeemed.
 
-See the [main README](../README.md) for what Parafa is and how a note works.
+See the [main README](../README.md) for what Parafa is and how a voucher works.
 
 ## How it works
 
-**mintd** signs blinded serials and stores spent notes.
+**mintd** signs blinded serials and stores the serials of redeemed vouchers.
 
 It doesn't manage accounts/identities, or funds. All of that is done by the operator!
 
-**mintd** has a secret ***seed*** which is stored in a file (by default at `/var/lib/parafa/seed`), every key (one key per denomination + epoch) derives from this seed, it MUST be backed up and secured by the operator!
+**mintd** has a secret ***seed*** which is stored in a file (by default at `/var/lib/parafa/seed`). Every key (one key per denomination + epoch) is derived from this seed. It MUST be backed up and secured by the operator!
 
 The program asks for a passphrase, either to encrypt a new seed file or to decrypt an existing one. You can also feed it in through a pipe, from any source (e.g. `pass parafa/seed-passphrase | ./bin/mintd`).
 
@@ -20,7 +20,7 @@ Keep the passphrase somewhere safe and NOT ANYWHERE NEAR the encrypted seed file
 
 Early development. It runs but it can't issue or redeem anything over the API yet.
 
-**DO NOT run mintd with real funds in its current state!**
+**DO NOT run mintd in production**
 
 Working:
 
@@ -37,22 +37,23 @@ Working:
 Not built yet:
 
 - Tests
-- DLEQ proofs: to make sure the user can verify their token was signed with the correct private key before redemption. If mint used a private key that isn't the same as the one that built the public key, the signature the client calculates becomes garbage and won't work at redemption.
+- DLEQ proofs: to make sure the user can verify their voucher was signed with the correct private key before redemption. If mintd used a private key that isn't the same as the one that built the public key (whether by error or deliberately), the stamp the wallet unblinds becomes garbage and won't work at redemption.
 - API endpoints (public & admin)
-- Side-channel hardening: point multiplication on curve uses NonConst operations meaning it takes more time for one operation to finish than another; this could potentially be exploited with our setup.
+- Side-channel hardening: point multiplication on curve uses NonConst operations meaning the time it takes depends on the key, this could potentially be exploited by measuring response times.
 - Wallet library
 - CLI wallet
 - Mock operator running mintd with fake money
+- Parafa.org website
 
 ## Servers
 
-**Public API.** Wallets talk to this. It is on a loopback address by default, you need a reverse proxy in front of it to make it accessible.
+**Public API.** Wallets talk to this. It is on a loopback address by default, so you need a reverse proxy in front of it to make it accessible.
 
-**Admin API.** For the operator's own systems, for payment confirmations/withdrawals. (it is on a loopback address by default, if you change the host, you will get a warning)
+**Admin API.** For the operator's own systems, for payment confirmations/withdrawals. (it is on a loopback address by default; if you change the host, you will get a warning)
 
 ## Configuration
 
-Flags overwrite environment variables, which overwrite the config file, which overwrites the defaults. You don't need to rebuild if you have your own settings.
+Flags override environment variables, which override the config file, which overrides the defaults. You don't need to rebuild if you have your own settings.
 
 | Setting | Environment variable | Flag | Default |
 |---|---|---|---|
