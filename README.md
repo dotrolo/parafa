@@ -2,15 +2,17 @@
 
 **Parafa** is a collection of programs and packages written in Go that make up a **lightweight**, privacy-preserving blind signing system, using BDHKE (Blind Diffie-Hellman Key Exchange) on [secp256k1](https://pkg.go.dev/github.com/decred/dcrd/dcrec/secp256k1/v4).
 
-Parafa is built for a low attack surface, small binaries and open use.
+Parafa is built for a low attack surface, scalability, small binaries and open use.
 
 ### What is this?
 
-An operator checks something about you, then gives you a voucher for it. When you redeem the voucher, the operator can see that it's valid, but not which person it gave it to.
+An operator (e.g. a company, organization or institute) using this system can give out vouchers for a verified fact, e.g. "You have a valid ticket for the concert" or "You just withdrew 100 euros". They give vouchers once the fact has been verified.
 
-Systems that already do this are each built for one use (e.g. digital cash or age verification). Parafa isn't. **mintd** signs vouchers, checks them, and records which ones were used. What a voucher means is up to the operator.
+When you redeem this voucher, e.g. at the gate for ticket inspection or when depositing cash, they cannot tell who they gave it to. They can only tell that this voucher is valid (because it has a valid signature).
 
-Right now a voucher only works with the operator that issued it. The goal is to let operators accept each other's vouchers.
+It works because you give a blinded "message" to the operator. After they verify the fact (e.g. your account was charged), they sign it and give the signature back. You remove the blinding from the signature, and then you have your voucher. A voucher is just a pair of data: the "message" (serial) and the signature (stamp). You can use it as proof (only once per voucher) without revealing your identity, e.g. to get into the concert.
+
+Read more about how blind signatures are used [here](https://en.wikipedia.org/wiki/Blind_signature) (note: we use a different protocol & number system than the examples shown on the wiki page).
 
 #### Example use
 - You want to withdraw cash from your bank that runs a Parafa mintd service.
@@ -20,7 +22,7 @@ Right now a voucher only works with the operator that issued it. The goal is to 
 - They can swap the voucher for a new one so the previous owner's voucher becomes invalid.
 - To redeem it, all they have to do is send a redemption request using their wallet. The bank then credits their account accordingly.
 
-A voucher is just a piece of data that by design isn't linked to your identity. It works like physical cash. If someone can access your voucher(s), they can spend them.
+If someone can access your voucher(s), they can spend them.
 
 ### Components
 
@@ -34,7 +36,10 @@ Early development. NOT ready for production. See [mintd](./mintd/) for what work
 
 ### AI use
 
-No AI-generated code is in this repository. AI was used for learning and research about design choices. It contributed to README files.
+No AI-generated code is in this repository. AI (Claude, model: Opus 5 and 5.5) was used for learning, research about design choices and read-only code review. It contributed to the following files by structuring, rewording parts, and making terms consistent:
+- /README.md
+- /mintd/README.md
+- /demo/README.md
 
 ### License
 

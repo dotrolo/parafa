@@ -4,6 +4,8 @@ This demonstration goes through a few simple steps. (server) generate keys from 
 
 ### Run it
 
+Install Go 1.26.5
+
 Clone the repo, then:
 
 ```sh

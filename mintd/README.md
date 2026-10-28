@@ -87,7 +87,9 @@ Run `mintd --help` for the full list.
 
 ## Run it (Linux)
 
-Go 1.26.5. Clone the repo, then:
+Install Go 1.26.5
+
+Clone the repo, then:
 
 ```sh
 make build-mintd
