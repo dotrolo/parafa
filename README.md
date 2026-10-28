@@ -22,7 +22,9 @@ Read more about how blind signatures are used [here](https://en.wikipedia.org/wi
 - They can swap the voucher for a new one so the previous owner's voucher becomes invalid.
 - To redeem it, all they have to do is send a redemption request using their wallet. The bank then credits their account accordingly.
 
-If someone can access your voucher(s), they can spend them.
+The bank can't connect the voucher it issued to the voucher being redeemed. Privacy grows with the number of people using the same mint (operator).
+
+Note: If someone can access your voucher(s), they can spend them, just like physical cash.
 
 ### Components
 
@@ -40,6 +42,8 @@ No AI-generated code is in this repository. AI (Claude, model: Opus 5 and 5.5) w
 - /README.md
 - /mintd/README.md
 - /demo/README.md
+
+I believe GenAI should be used as a tool for learning, not a replacement for doing the work. I check every fact it gives me against a reference.
 
 ### License
 
