@@ -30,7 +30,6 @@ go build -o bin/demo ./demo
 
 #### Client makes a serial
 
-
 - `s` - 32 random bytes
 - `S = HashToCurve(s)` - serial as a point
 - `r` - random blinding factor
@@ -52,7 +51,7 @@ C' = kB
 - `rK = rkG`
 - `C = C' + mirror of rK = kS` - signed S
 
-#### Mintd verifies it
+#### mintd verifies it
 
 - `HashToCurve(s) -> S` - compute from serial
-- `note is valid if kS = C`
+- voucher is valid if `kS = C` (and voucher wasn't already spent)

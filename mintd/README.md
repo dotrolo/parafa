@@ -39,7 +39,7 @@ Not built yet:
 - Tests
 - DLEQ proofs: to make sure the user can verify their voucher was signed with the correct private key before redemption. If mintd used a private key that isn't the same as the one that built the public key (whether by error or deliberately), the stamp the wallet unblinds becomes garbage and won't work at redemption.
 - API endpoints (public & admin)
-- Side-channel hardening: point multiplication on curve uses NonConst operations meaning the time it takes depends on the key, this could potentially be exploited by measuring response times.
+- Side-channel hardening: point multiplication on curve uses NonConst operations meaning the time it takes depends on the key. This could potentially be exploited by measuring response times.
 - Wallet library
 - CLI wallet
 - Mock operator running mintd with fake money

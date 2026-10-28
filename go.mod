@@ -1,4 +1,4 @@
-module github.com/dotrolo/parafa
+module github.com/lorandkom/parafa
 
 go 1.26.5
 

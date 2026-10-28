@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
-	"github.com/dotrolo/parafa/mintd/keys"
+	"github.com/lorandkom/parafa/mintd/keys"
 )
 
 func main() {
@@ -89,11 +89,11 @@ func main() {
 
 	fmt.Println("[SERVER]")
 	// verify / redeem note
-	fmt.Println("		Redeeming note...")
+	fmt.Println("		Redeeming voucher...")
 	redeem(seed, s, &kS, spent)
 
 	// try to redeem it twice (should fail)
-	fmt.Println("		Redeeming the same note again...")
+	fmt.Println("		Redeeming the same voucher again...")
 	redeem(seed, s, &kS, spent)
 
 	fmt.Println("Demo finished!")

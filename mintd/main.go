@@ -12,10 +12,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/dotrolo/parafa/mintd/internal/admin"
-	"github.com/dotrolo/parafa/mintd/internal/api"
-	"github.com/dotrolo/parafa/mintd/internal/config"
-	"github.com/dotrolo/parafa/mintd/keys"
+	"github.com/lorandkom/parafa/mintd/internal/admin"
+	"github.com/lorandkom/parafa/mintd/internal/api"
+	"github.com/lorandkom/parafa/mintd/internal/config"
+	"github.com/lorandkom/parafa/mintd/keys"
 )
 
 func main() {
