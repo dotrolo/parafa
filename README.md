@@ -1,8 +1,6 @@
 # Parafa
 
-**Parafa** is a collection of programs and packages written in Go that make up a **lightweight**, privacy-preserving blind signing system, using BDHKE (Blind Diffie-Hellman Key Exchange) on [secp256k1](https://pkg.go.dev/github.com/decred/dcrd/dcrec/secp256k1/v4).
-
-Parafa is built for a low attack surface, scalability, small binaries and open use.
+**Parafa** is a collection of programs and packages written in Go that make up a general-purpose, compact, privacy-preserving blind signing system, using BDHKE (Blind Diffie-Hellman Key Exchange) on [secp256k1](https://pkg.go.dev/github.com/decred/dcrd/dcrec/secp256k1/v4).
 
 ### What is this?
 
@@ -43,7 +41,7 @@ No AI-generated code is in this repository. AI (Claude, model: Opus 5 and 5.5) w
 - /mintd/README.md
 - /demo/README.md
 
-I believe GenAI should be used as a tool for learning, not a replacement for doing the work. I check every fact it gives me against a reference.
+I believe GenAI should be used as a tool for learning, not a replacement for doing the work. Anyone contributing to this repository must fact-check everything.
 
 ### License
 

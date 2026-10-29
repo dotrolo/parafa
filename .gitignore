@@ -2,6 +2,7 @@
 /wallet/wallet
 bin/
 TODO.md
+GOALS.md
 
 *.seed
 seed
